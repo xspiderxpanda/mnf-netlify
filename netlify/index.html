@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Flow - NodeJS</title>
+    <meta property="og:image" content="https://hogspinz.shop/assets/img/logohogspin1.png" alt="NODEJS MONEY FLOW">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="https://hogspinz.shop/assets/img/logohogspin1.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://bit.ly/3CZa0Sz" type="text/css" charset="utf-8" />
+  </head>
+<style>
+    * {
+        font-family: 'line_seed_sans_th', sans-serif;
+    }
+    @keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.25s ease-out;
+  transition: all 0.25s ease;
+}
+</style>
+
+<body class="min-h-screen bg-slate-950 text-slate-100">
+    <div class="flex min-h-screen">
+
+    <!-- =============== SIDEBAR =============== -->
+    <aside class="hidden md:flex md:flex-col w-64 bg-slate-900 border-r border-slate-800">
+        <div class="px-6 py-5 border-b border-slate-800 flex items-center gap-2">
+        <img src="https://hogspinz.shop/assets/img/logohogspin1.png" class="h-10 w-auto">
+        <div>
+          <div class="font-semibold tracking-wide text-sm text-slate-200">MoneyFlow</div>
+          <div class="text-xs text-slate-400">Personal Finance Dashboard</div>
+        </div>
+      </div>
+
+      <nav class="flex-1 px-3 py-4 space-y-1 text-sm">
+        <a href="#"
+           class="flex items-center gap-3 px-3 py-2 rounded-lg bg-orange-500/15 text-orange-400 font-medium">
+          <span class="w-2 h-2 rounded-full bg-orange-400"></span>
+          <span>Dashboard</span>
+        </a>
+        <a href="#"
+           class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70">
+          <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+          <span>Transactions</span>
+        </a>
+        <a href="#"
+           class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70">
+          <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+          <span>Reports</span>
+        </a>
+        <a href="#"
+           class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70">
+          <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="px-4 py-4 border-t border-slate-800 text-xs text-slate-500">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-xs">
+            UX
+          </div>
+          <div>
+            <div class="text-slate-200 text-sm">คุณ</div>
+            <div class="text-slate-500 text-xs">Logged in</div>
+          </div>
+        </div>
+        <p class="text-[11px] leading-relaxed">
+          จัดการรายรับ–รายจ่ายของคุณในที่เดียวอย่างเป็นระบบ
+        </p>
+      </div>
+    </aside>
+
+    <!-- =============== MAIN =============== -->
+    <main class="flex-1 flex flex-col">
+
+      <!-- TOP BAR -->
+      <header class="w-full border-b border-slate-800 bg-slate-900/80 backdrop-blur">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+          <div>
+            <h1 class="text-xl md:text-2xl font-semibold text-slate-50">
+              Dashboard – รายรับรายจ่าย
+            </h1>
+            <p class="text-xs md:text-sm text-slate-400 mt-1">
+              ภาพรวมสถานะการเงินของคุณวันนี้
+            </p>
+          </div>
+         
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <section class="flex-1">
+        <div class="max-w-6xl mx-auto px-4 py-6 space-y-6">
+
+          <!-- SUMMARY CARDS -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-4 rounded-xl bg-gradient-to-br from-emerald-500/15 via-emerald-500/5 to-slate-900 border border-emerald-500/40">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-emerald-300">รายรับรวม</span>
+                <span class="text-[11px] text-emerald-200/90 bg-emerald-500/20 px-2 py-0.5 rounded-full">
+                  Income
+                </span>
+              </div>
+              <p id="sum-income" class="text-2xl md:text-3xl font-bold mt-2 text-emerald-300">
+                0
+              </p>
+              <p class="text-[11px] text-emerald-200/70 mt-1">
+                รายรับที่บันทึกทั้งหมด
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-gradient-to-br from-rose-500/20 via-rose-500/5 to-slate-900 border border-rose-500/40">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-rose-200">รายจ่ายรวม</span>
+                <span class="text-[11px] text-rose-100 bg-rose-500/30 px-2 py-0.5 rounded-full">
+                  Expense
+                </span>
+              </div>
+              <p id="sum-expense" class="text-2xl md:text-3xl font-bold mt-2 text-rose-200">
+                0
+              </p>
+              <p class="text-[11px] text-rose-100/70 mt-1">
+                รายจ่ายที่บันทึกทั้งหมด
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-gradient-to-br from-orange-500/25 via-orange-500/10 to-slate-900 border border-orange-500/50">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-orange-200">ยอดสุทธิ</span>
+                <span class="text-[11px] text-orange-100 bg-orange-500/40 px-2 py-0.5 rounded-full">
+                  Balance
+                </span>
+              </div>
+              <p id="sum-balance" class="text-2xl md:text-3xl font-bold mt-2 text-orange-200">
+                0
+              </p>
+              <p class="text-[11px] text-orange-100/70 mt-1">
+                รายรับลบรายจ่าย ณ ตอนนี้
+              </p>
+            </div>
+          </div>
+
+          <!-- FORM + TABLE LAYOUT -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-1">
+              <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 space-y-4 shadow-lg shadow-black/30">
+                <div class="flex items-center justify-between mb-1">
+                  <h2 class="text-sm font-semibold text-slate-100">
+                    เพิ่มรายการใหม่
+                  </h2>
+                  <span class="text-[11px] text-slate-400">
+                    Quick entry
+                  </span>
+                </div>
+
+                <form id="txn-form" class="space-y-3">
+                  <div>
+                    <label for="txn-title" class="block text-xs text-slate-400 mb-1">
+                      ชื่อรายการ
+                    </label>
+                    <input
+                      id="txn-title"
+                      type="text"
+                      placeholder="เช่น เงินเดือน, ค่าอาหาร, ค่าเดินทาง..."
+                      class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/70 focus:border-orange-500"
+                      required
+                    />
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <label for="txn-type" class="block text-xs text-slate-400 mb-1">
+                        ประเภท
+                      </label>
+                      <select
+                        id="txn-type"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500/70 focus:border-orange-500"
+                        required
+                      >
+                        <option value="income">รายรับ</option>
+                        <option value="expense">รายจ่าย</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label for="txn-amount" class="block text-xs text-slate-400 mb-1">
+                        จำนวนเงิน
+                      </label>
+                      <input
+                        id="txn-amount"
+                        type="number"
+                        placeholder="0.00"
+                        min="0"
+                        step="0.01"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/70 focus:border-orange-500"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <label for="txn-date" class="block text-xs text-slate-400 mb-1">
+                        วันที่
+                      </label>
+                      <input
+                        id="txn-date"
+                        type="date"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500/70 focus:border-orange-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label for="txn-note" class="block text-xs text-slate-400 mb-1">
+                        หมายเหตุ
+                      </label>
+                      <input
+                        id="txn-note"
+                        type="text"
+                        placeholder="ไม่บังคับกรอก"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/70 focus:border-orange-500"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="w-full mt-2 bg-orange-500 text-slate-950 font-semibold text-sm px-4 py-2.5 rounded-lg hover:bg-orange-400 transition shadow-md shadow-orange-900/40"
+                  >
+                    บันทึกรายการ
+                  </button>
+                </form>
+
+               <!-- <p id="status" class="text-[11px] text-slate-400 mt-1 min-h-[16px]"></p>-->
+                <div id="toast-container"
+     class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex flex-col items-center space-y-2">
+</div>
+              </div>
+            </div>
+
+            <!-- TABLE CARD -->
+            <div class="lg:col-span-2">
+              <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 md:p-5 shadow-lg shadow-black/30">
+                <div class="flex items-center justify-between mb-3">
+                  <h2 class="text-sm font-semibold text-slate-100">
+                    รายการล่าสุด
+                  </h2>
+                  <div class="text-[11px] text-slate-500">
+                    ดึงข้อมูลจาก MongoDB แบบ realtime fetch
+                  </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm">
+                    <thead>
+                      <tr class="bg-slate-900 border-b border-slate-800 text-xs text-slate-400">
+                        <th class="px-3 py-2 text-left font-medium">ชื่อรายการ</th>
+                        <th class="px-3 py-2 text-center font-medium">ประเภท</th>
+                        <th class="px-3 py-2 text-right font-medium">จำนวน</th>
+                        <th class="px-3 py-2 text-center font-medium">วันที่</th>
+                        <th class="px-3 py-2 text-left font-medium">หมายเหตุ</th>
+                        <th class="px-3 py-2 text-right font-medium"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="txn-list">
+                      <!-- JS เติมรายการที่นี่ -->
+                    </tbody>
+                  </table>
+                </div>
+
+                <p class="text-[11px] text-slate-500 mt-3">
+                  คุณสามารถคลิก “ลบ” เพื่อลบรายการออกจากฐานข้อมูลได้ทันที
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
