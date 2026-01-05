@@ -13,6 +13,7 @@ exports.handler = async (event) => {
   }
 
   const { type, amount, category, note, date } = body;
+
   if (!["income", "expense"].includes(type)) {
     return { statusCode: 400, body: "Invalid type" };
   }
@@ -32,8 +33,7 @@ exports.handler = async (event) => {
     createdAt: new Date().toISOString(),
   };
 
-  // const store = getStore("moneyflow");
-  const store = store();
+  const store = getStore("moneyflow");
   const raw = await store.get("transactions");
   const list = raw ? JSON.parse(raw) : [];
   list.unshift(tx);
