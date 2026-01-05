@@ -32,7 +32,8 @@ exports.handler = async (event) => {
     createdAt: new Date().toISOString(),
   };
 
-  const store = getStore("moneyflow");
+  // const store = getStore("moneyflow");
+  const store = store();
   const raw = await store.get("transactions");
   const list = raw ? JSON.parse(raw) : [];
   list.unshift(tx);

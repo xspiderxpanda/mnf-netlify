@@ -9,7 +9,8 @@ export default async (req) => {
   const id = url.searchParams.get("id");
   if (!id) return new Response("Missing id", { status: 400 });
 
-  const store = getStore("moneyflow");
+  // const store = getStore("moneyflow");
+  const store = store();
   const raw = await store.get("transactions");
   const list = raw ? JSON.parse(raw) : [];
 
